@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="NVS Projekt:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Reisebuero-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="NVS Projekt:war exploded" />
+    </root>
+  </artifact>
+</component>
