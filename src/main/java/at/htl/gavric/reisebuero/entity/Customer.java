@@ -2,6 +2,10 @@ package at.htl.gavric.reisebuero.entity;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "CUSTOMER")
@@ -13,8 +17,13 @@ public class Customer {
 
     private String firstName;
     private String lastName;
-    private int age;
+
+    @NotNull
+    private Integer age;
     private String discount;
+
+    @OneToMany
+    private List<Booking> bookings = new LinkedList<>();
 
     public Customer() {
     }
@@ -64,5 +73,13 @@ public class Customer {
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

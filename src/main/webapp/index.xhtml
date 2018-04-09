@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Reisebüro</title>
+</h:head>
+
+<h:body>
+    <f:view>
+
+
+        <h:outputText style="font-size: 28px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Reisebüro Gavric  "/>
+        <p:clock  pattern="dd.MM.yyyy HH:mm:ss " />
+        <hr/>
+
+        <h:outputText style="font-size: 22px; font-weight: bold; font-family: Arial" value="Angebote"/>
+        <p:dataTable var="offer"
+                     value="#{indexController.offers}"
+                     style="margin-bottom: 10px">
+
+            <p:column headerText="Ort">
+                <h:outputText value="#{offer.destination}"/>
+            </p:column>
+
+            <p:column headerText="Unterkunft">
+                <h:outputText value="#{offer.accomodation}"/>
+            </p:column>
+
+            <p:column headerText="Catering">
+                <h:outputText value="#{offer.catering}"/>
+            </p:column>
+
+            <p:column headerText="Preis">
+                <h:outputText value="#{offer.price} €"/>
+            </p:column>
+        </p:dataTable>
+
+        <h:outputText style="font-size: 22px; font-weight: bold; font-family: Arial" value="Kunden"/>
+        <p:dataTable var="customer"
+                     value="#{indexController.customers}"
+                     style="margin-bottom: 10px">
+
+            <p:column headerText="Name">
+                <h:outputText value="#{customer.firstName} #{customer.lastName}"/>
+            </p:column>
+
+            <p:column headerText="Alter">
+                <h:outputText value="#{customer.age}"/>
+            </p:column>
+
+            <p:column headerText="Ermäßigung">
+                <h:outputText value="#{customer.discount}"/>
+            </p:column>
+        </p:dataTable>
+
+        <h:outputText style="font-size: 22px; font-weight: bold; font-family: Arial" value="Buchungen"/>
+        <p:dataTable var="booking"
+                     value="#{indexController.bookings}"
+                     style="margin-bottom: 10px"
+                     id="bookingTable">
+
+            <p:column headerText="Abflug" width="40%">
+                <h:outputText value="#{booking.departureAirport} um #{booking.formattedDepartureDate}"/>
+            </p:column>
+
+            <p:column headerText="Ankunft" width="40%">
+                <h:outputText value="#{booking.arrivalAirport} um #{booking.formattedArrivalDate}"/>
+            </p:column>
+
+            <p:column headerText="Anzahlung" width="10%">
+                <h:outputText value="#{booking.deposit} €"/>
+            </p:column>
+
+            <p:column headerText="Angebot" width="15%">
+                <h:outputText value="#{booking.offer.destination}"/>
+            </p:column>
+
+            <p:column headerText="Kunde" width="15%">
+                <h:outputText value="#{booking.customer.lastName}"/>
+            </p:column>
+
+        </p:dataTable>
+
+
+        <h:outputText style="font-size: 28px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Neue Buchung anlegen"/>
+
+        <h:form>
+            <h:panelGrid columns="4" cellpadding="5">
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Abflug-Flughafen"/>
+                <p:inputText value="#{indexController.newBooking.departureAirport}">
+                    <f:validateLength minimum="4" maximum="16"/>
+                </p:inputText>
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Ankunft-Flughafen"/>
+                <p:inputText value="#{indexController.newBooking.arrivalAirport}"/>
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Von"/>
+                <p:calendar value="#{indexController.newBooking.utilDepartureDate}" id="vonDatum" pattern="dd/MM/yyyy HH:mm:ss" mask="true"/>
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Bis"/>
+                <p:calendar value="#{indexController.newBooking.utilArrivalDate}" id="bisDatum" pattern="dd/MM/yyyy HH:mm:ss" mask="true"/>
+
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Teilzahlung der Buchung"/>
+                <p:inputNumber value="#{indexController.newBooking.deposit}"/>
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Angebot"/>
+                <h:selectOneMenu id="txt1" value="#{indexController.newBookingOfferId}" required="true">
+                    <c:forEach items="#{indexController.offers}" var="offer">
+                        <f:selectItem itemLabel="#{offer.accomodation} - #{offer.destination}" itemValue="#{offer.id}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+
+                <h:outputText style="font-size: 18px; font-weight: bold; font-family: Arial; margin-bottom: 10px" value="Kunde"/>
+                <h:selectOneMenu id="txt2" value="#{indexController.newBookingCustomerId}" required="true" widgetVar="menu" styleClass="with-placeholder" panelStyleClass="hide-disabled" onchange="menu.jq.removeClass('with-placeholder')">
+                    <c:forEach items="#{indexController.customers}" var="customer">
+                        <f:selectItem itemLabel="#{customer.firstName} #{customer.lastName}" itemValue="#{customer.id}"/>
+                    </c:forEach>
+                </h:selectOneMenu>
+
+                <p:commandButton value="Reset" type="reset"/>
+                <p:commandButton value="Speichern" action="#{indexController.saveBooking}" icon="fa fa-cart-plus"/>
+            </h:panelGrid>
+        </h:form>
+
+    </f:view>
+</h:body>
+</html>

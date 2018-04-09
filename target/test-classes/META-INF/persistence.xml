@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="myTestPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>at.htl.gavric.reisebuero.entity.Payment</class>
+        <class>at.htl.gavric.reisebuero.entity.Booking</class>
+        <class>at.htl.gavric.reisebuero.entity.Customer</class>
+        <class>at.htl.gavric.reisebuero.entity.Offer</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/db"/>
+            <property name="javax.persistence.jdbc.user" value="user"/>
+            <property name="javax.persistence.jdbc.password" value="passme"/>
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -2,23 +2,28 @@ package at.htl.gavric.reisebuero.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "PAYMENT")
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate date;
+    @ManyToOne
+    private Booking booking;
+
+    private LocalDateTime date;
+    private double amount;
 
     public Payment() {
     }
 
-    public Payment(LocalDate date) {
+    public Payment(LocalDateTime date, double amount) {
         this.date = date;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -29,11 +34,29 @@ public class Payment {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+
 }
